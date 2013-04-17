@@ -1,0 +1,18 @@
+2009-03-25  Naoya Tozuka  <naoya_t@users.sourceforge.jp>
+
+	* Merged naoya_t's mecab-gauche-0.98pre1 (http://blog.livedoor.jp/naoya_t/archives/51131440.html)
+	* Supports:
+		* Tagger class
+		* Accessors for mecab_node_t structure members
+		* All MeCab APIs, except those which overwrite their argument:
+		    mecab-sparse-tostr3, mecab-nbest-sparse-tostr3, mecab-nbest-next-tostr2
+	* (mecab params ...) makes a new instance with parameter(s).  The format is inspired by leque's (make-mecab :rcfile "mymecabrc") style.
+	* Separates dictionary-dependent tests from test.scm.
+
+2009-03-01  Shiro Kawai  <shiro@acm.org>
+
+	* Picked up development to make use of it.   Adapted to the newer
+	  way of stub writing.   NOTE: you need Gauche svn trunk to compile
+	  this.
+
+
