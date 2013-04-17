@@ -1,0 +1,7 @@
+A package to use MeCab ( https://code.google.com/p/mecab/ ) from Gauche.
+
+Originally written by Kimura Fuyuki,
+contributed by naoya_t
+
+
+
