@@ -637,7 +637,7 @@
   (mecab-sparse-tostr (tagger-mecab tagger) str))
 
 (define-method parse-to-string ((tagger <mecab-tagger>) (str <string>) (len <integer>))
-  (mecab-sparse-tostr (tagger-mecab tagger) str len))
+  (mecab-sparse-tostr2 (tagger-mecab tagger) str len))
 
 (define-method parse-to-node ((tagger <mecab-tagger>) (str <string>))
   (mecab-sparse-tonode (tagger-mecab tagger) str))
@@ -646,16 +646,16 @@
   (mecab-sparse-tonode2 (tagger-mecab tagger) str len))
 
 (define-method parse-nbest ((tagger <mecab-tagger>) (n <integer>) (str <string>))
-  (mecab-nbest-sparse-tostr (tagger-mecab tagger) str))
+  (mecab-nbest-sparse-tostr (tagger-mecab tagger) n str))
 
 (define-method parse-nbest ((tagger <mecab-tagger>) (n <integer>) (str <string>) (len <integer>))
-  (mecab-nbest-sparse-tostr (tagger-mecab tagger) str len))
+  (mecab-nbest-sparse-tostr2 (tagger-mecab tagger) n str len))
 
 (define-method parse-nbest-init ((tagger <mecab-tagger>) (str <string>))
   (mecab-nbest-init (tagger-mecab tagger) str))
 
 (define-method parse-nbest-init ((tagger <mecab-tagger>) (str <string>) (len <integer>))
-  (mecab-nbest-init (tagger-mecab tagger) str len))
+  (mecab-nbest-init2 (tagger-mecab tagger) str len))
 
 (define-method next ((tagger <mecab-tagger>))
   (mecab-nbest-next-tostr (tagger-mecab tagger)))

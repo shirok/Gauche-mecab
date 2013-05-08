@@ -1,3 +1,8 @@
+2013-05-07  shiro  <shiro@acm.org>
+
+	* Fixed some trivial argument mismatch bugs, revealed by recent
+	  Gauche test.
+
 2009-03-25  Naoya Tozuka  <naoya_t@users.sourceforge.jp>
 
 	* Merged naoya_t's mecab-gauche-0.98pre1 (http://blog.livedoor.jp/naoya_t/archives/51131440.html)
