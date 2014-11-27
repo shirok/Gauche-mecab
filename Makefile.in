@@ -1,7 +1,3 @@
-#
-# $Id: Makefile.in,v 1.4 2009/03/25 06:22:38 naoya_t Exp $
-#
-
 # General info
 SHELL       = @SHELL@
 prefix      = @prefix@
@@ -19,7 +15,7 @@ GOSH           = @GOSH@
 GAUCHE_CONFIG  = @GAUCHE_CONFIG@
 GAUCHE_PACKAGE = @GAUCHE_PACKAGE@
 INSTALL        = @GAUCHE_INSTALL@
-GENCOMP        = $(GOSH) gencomp
+PRECOMP        = $(GOSH) precomp
 
 # Other parameters
 SOEXT  = @SOEXT@
@@ -46,7 +42,7 @@ GAUCHE_PKGARCHDIR = $(DESTDIR)@GAUCHE_PKGARCHDIR@
 all : $(TARGET)
 
 mecab-lib.$(SOEXT): $(srcdir)/mecab-lib.scm
-	$(GENCOMP) --ext-module=text/mecab.scm $(srcdir)/mecab-lib.scm
+	$(PRECOMP) --ext-module=text/mecab.scm $(srcdir)/mecab-lib.scm
 	$(GAUCHE_PACKAGE) compile \
 	  --local=$(LOCAL_PATHS) --libs='-lmecab' --verbose mecab-lib mecab-lib.c
 
