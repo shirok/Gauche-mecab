@@ -219,14 +219,17 @@
  (define-cfn mecab-finalize (obj data::void*) ::void :static
    (mecab-cleanup (SCM_MECAB obj)))
 
+ ;; NB: The newer mecab (0.996) doesn't set mecab_strerr when
+ ;; the model initialization failed.
  (define-cfn make-mecab (m::mecab_t* options::ScmObj) :static
-   (when (== m NULL) (mecab-strerror NULL))
-   (let* ([obj::ScmMeCab* (SCM_NEW ScmMeCab)])
-     (SCM_SET_CLASS obj (& Scm_MeCabClass))
-     (set! (-> obj m) m)
-     (set! (-> obj options) options)
-     (Scm_RegisterFinalizer (SCM_OBJ obj) mecab-finalize NULL)
-     (return (SCM_OBJ obj))))
+   (if (== m NULL)
+     (return SCM_FALSE)
+     (let* ([obj::ScmMeCab* (SCM_NEW ScmMeCab)])
+       (SCM_SET_CLASS obj (& Scm_MeCabClass))
+       (set! (-> obj m) m)
+       (set! (-> obj options) options)
+       (Scm_RegisterFinalizer (SCM_OBJ obj) mecab-finalize NULL)
+       (return (SCM_OBJ obj)))))
 
  (define-cfn make-mecab-node (n::"const mecab_node_t*") :static
    ;; returns #f when n==NULL ... for convenience of mecab_nbest_next_*

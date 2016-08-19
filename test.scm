@@ -150,9 +150,7 @@
 (mecab-new2 "")
 (test* "at mecab-new2 (ok)" "" (mecab-strerror #f))
 
-(mecab-new2 "-d //") ;; => "tagger.cpp(149) [load_dictionary_resource(param)] param.cpp(71) [ifs] no such file or directory:  //dicrc"
-(test* "at mecab-new (err)" #f (string=? "" (mecab-strerror #f)))
-(test* "no such file or directory" #f (not (#/no such file or directory/ (mecab-strerror #f))))
+(test* "fail to initialize" #f (mecab-new2 "-d //"))
 
 (let1 m (mecab-new2 "")
   (mecab-sparse-tostr m "空が青い。")
@@ -179,12 +177,16 @@
   (test-section "mecab-get-lattice-level / mecab-set-lattice-level")
   (test* "default lattice-level [0|1|2]" #t
          (and (memq (mecab-get-lattice-level m) '(0 1 2)) #t))
+  ;; NB: set-lattice-level/get-lattice-level is deprecated, and the current
+  ;; MeCab implementation (0.996) handles them rather loosely; in particular,
+  ;; there are distinct flags for level 0,1 and 2, and once we set higher level
+  ;; there's no way to reduce the level.
+  (mecab-set-lattice-level m 0)
+  (test* "set to 0" 0 (mecab-get-lattice-level m))
   (mecab-set-lattice-level m 1)
   (test* "set to 1" 1 (mecab-get-lattice-level m))
   (mecab-set-lattice-level m 2)
   (test* "set to 2" 2 (mecab-get-lattice-level m))
-  (mecab-set-lattice-level m 0)
-  (test* "set to 0" 0 (mecab-get-lattice-level m))
 
   (test-section "mecab-get-all-morphs / mecab-set-all-morphs")
   (test* "default all-morphs [0|1]" #t

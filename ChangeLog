@@ -1,3 +1,10 @@
+2016-08-18  Shiro Kawai  <shiro@acm.org>
+
+	* mecab-lib.scm (make-mecab): Let the constructor return #f if
+	  initialization failed.  Recent MeCab doesn't alway set error
+	  messages, so the caller should rely on the return value.
+	* test.scm: Tweaked to follow some subtle changes in libmecab.
+
 2013-05-07  shiro  <shiro@acm.org>
 
 	* Fixed some trivial argument mismatch bugs, revealed by recent
