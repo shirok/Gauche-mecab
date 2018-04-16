@@ -3,14 +3,14 @@
 ;;
 
 (define-gauche-package "Gauche-mecab"
-  :version "1.0.1"
+  :version "1.0.2"
 
   ;; Description of the package.  The first line is used as a short
   ;; summary.
   :description "MeCab binding for Gauche"
 
   ;; List of dependencies.
-  :require (("Gauche" (>= "0.9.5_pre1")))
+  :require (("Gauche" (>= "0.9.5_")))
 
   ;; List name and contact info of authors.
   :authors ("Kimura Fuyuki"

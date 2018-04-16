@@ -31,6 +31,7 @@ if [ "$tgz" = "yes" ]; then
   rm -f DIST_EXCLUDE_X
   echo DIST > DIST_EXCLUDE_X
   echo DIST_EXCLUDE_X >> DIST_EXCLUDE_X
+  echo .git >> DIST_EXCLUDE_X
   if [ -f DIST_EXCLUDE ]; then cat DIST_EXCLUDE >> DIST_EXCLUDE_X; fi
   find . -name CVS -print -prune >> DIST_EXCLUDE_X
 

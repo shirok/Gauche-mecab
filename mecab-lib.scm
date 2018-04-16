@@ -179,25 +179,26 @@
 
 ;;
 (inline-stub
- "#include <mecab.h>"
+ (declcode
+  "#include <mecab.h>"
 
- ;; mecab_t type holder.
- "typedef struct ScmMeCabRec {
-   SCM_HEADER;
-   mecab_t *m; /* NULL if closed */
-   ScmObj   options;
- } ScmMeCab;
+  ;; mecab_t type holder.
+  "typedef struct ScmMeCabRec {
+     SCM_HEADER;
+     mecab_t *m; /* NULL if closed */
+     ScmObj   options;
+   } ScmMeCab;
 
- typedef struct ScmMeCabNodeRec {
-   SCM_HEADER;
-   const mecab_node_t *node;
- } ScmMeCabNode;
+   typedef struct ScmMeCabNodeRec {
+     SCM_HEADER;
+     const mecab_node_t *node;
+   } ScmMeCabNode;
 
- typedef struct ScmMeCabDictionaryInfoRec {
-   SCM_HEADER;
-   const mecab_dictionary_info_t *dic_info;
- } ScmMeCabDictionaryInfo;"
-
+   typedef struct ScmMeCabDictionaryInfoRec {
+     SCM_HEADER;
+     const mecab_dictionary_info_t *dic_info;
+   } ScmMeCabDictionaryInfo;")
+ 
  (define-cclass <mecab> :private ScmMeCab* "Scm_MeCabClass"
    ()
    ())
@@ -208,8 +209,9 @@
 
  (define-cclass <mecab-dictionary-info> :private ScmMeCabDictionaryInfo* "Scm_MeCabDictionaryInfoClass"
    ()
-   ())
+   ()))
 
+(inline-stub
  ;; internal utility functions
  (define-cfn mecab-cleanup (m::ScmMeCab*) ::void :static
    (unless (== (-> m m) NULL)
