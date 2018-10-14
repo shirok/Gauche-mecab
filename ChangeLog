@@ -1,3 +1,8 @@
+2018-10-14  Shiro Kawai  <shiro@acm.org>
+
+	* Bump up to 1.0.3
+	* configure: Adapt to Gauche 0.9.7 configure.
+
 2016-08-18  Shiro Kawai  <shiro@acm.org>
 
 	* mecab-lib.scm (make-mecab): Let the constructor return #f if
