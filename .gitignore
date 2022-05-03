@@ -1,0 +1,8 @@
+Gauche-mecab.gpd
+Makefile
+VERSION
+*.log
+mecab-lib.c
+mecab-lib.o
+mecab-lib.so
+text/mecab.scm

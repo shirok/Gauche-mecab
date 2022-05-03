@@ -2,6 +2,3 @@ A package to use MeCab ( http://taku910.github.io/mecab/ ) from Gauche.
 
 Originally written by Kimura Fuyuki,
 contributed by naoya_t
-
-
-
