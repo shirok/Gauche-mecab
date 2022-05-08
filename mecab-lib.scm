@@ -198,7 +198,7 @@
      SCM_HEADER;
      const mecab_dictionary_info_t *dic_info;
    } ScmMeCabDictionaryInfo;")
- 
+
  (define-cclass <mecab> :private ScmMeCab* "Scm_MeCabClass"
    ()
    ())
@@ -217,7 +217,7 @@
    (unless (== (-> m m) NULL)
      (mecab-destroy (-> m m))
      (set! (-> m m) NULL)))
- 
+
  (define-cfn mecab-finalize (obj data::void*) ::void :static
    (mecab-cleanup (SCM_MECAB obj)))
 

@@ -31,5 +31,3 @@
 	* Picked up development to make use of it.   Adapted to the newer
 	  way of stub writing.   NOTE: you need Gauche svn trunk to compile
 	  this.
-
-
