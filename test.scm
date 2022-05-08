@@ -1,4 +1,4 @@
-;; -*- coding:euc-jp -*-
+;; -*- coding:utf-8 -*-
 ;;
 ;; dictionary-independent tests for mecab module
 ;;
@@ -153,7 +153,7 @@
 (test* "fail to initialize" #f (mecab-new2 "-d //"))
 
 (let1 m (mecab-new2 "")
-  (mecab-sparse-tostr m "¶õ¤¬ÀÄ¤¤¡£")
+  (mecab-sparse-tostr m "ç©ºãŒé’ã„ã€‚")
   (test* "noerr" "" (mecab-strerror m))
   (mecab-destroy m))
 
@@ -197,4 +197,4 @@
   (test* "set to 0" 0 (mecab-get-all-morphs m))
   )
 
-(test-end)
+(test-end :exit-on-failure #t)

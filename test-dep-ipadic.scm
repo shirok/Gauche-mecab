@@ -1,4 +1,4 @@
-;; -*- coding:euc-jp -*-
+;; -*- coding:utf-8 -*-
 ;;
 ;; dictionary-dependent tests for mecab module <vol.2>
 ;;
@@ -15,25 +15,25 @@
 
 (let1 m (mecab-new2 "")
   (test-section "mecab-sparse-tostr")
-  (test* "¶õ¤¬ÀÄ¤¤¡£"
-         (string-join '("¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é"
-                        "¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬"
-                        "ÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤"
-                        "¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£"
+  (test* "ç©ºãŒé’ã„ã€‚"
+         (string-join '("ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©"
+                        "ãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬"
+                        "é’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤"
+                        "ã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚"
                         "EOS"
                         "") "\n")
-         (mecab-sparse-tostr m "¶õ¤¬ÀÄ¤¤¡£"))
+         (mecab-sparse-tostr m "ç©ºãŒé’ã„ã€‚"))
 
   (test-section "mecab-sparse-tostr2")
-  (test* "\"¶õ¤¬ÀÄ¤¤¡£\", len=6"
-         (string-join '("¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é"
-                        "¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬"
+  (test* "\"ç©ºãŒé’ã„ã€‚\", len=6"
+         (string-join '("ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©"
+                        "ãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬"
                         "EOS"
                         "") "\n")
-         (mecab-sparse-tostr2 m "¶õ¤¬ÀÄ¤¤¡£" 6))
+         (mecab-sparse-tostr2 m "ç©ºãŒé’ã„ã€‚" 6))
 
   (test-section "mecab-sparse-tonode, mecab-node-***")
-  (let1 node (mecab-sparse-tonode m "¶õ¤¬ÀÄ¤¤¡£")
+  (let1 node (mecab-sparse-tonode m "ç©ºãŒé’ã„ã€‚")
     (test* "mecab-node?" #t (mecab-node? node))
     (test* "no previous node" #f (mecab-node-prev node))
     (test* "next node" #t (mecab-node? (mecab-node-next node)))
@@ -62,8 +62,8 @@
     (test* "next node" #t (mecab-node? (mecab-node-next node)))
     (test* "enext" #t (mecab-node? (mecab-node-enext node)))
     (test* "bnext" #f (mecab-node? (mecab-node-bnext node)))
-    (test* "surface" "¶õ" (mecab-node-surface node))
-    (test* "feature" "Ì¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é" (mecab-node-feature node))
+    (test* "surface" "ç©º" (mecab-node-surface node))
+    (test* "feature" "åè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©" (mecab-node-feature node))
     (test* "length" 3 (mecab-node-length node))
     (test* "rlength" 3 (mecab-node-rlength node))
     (test* "id" 1 (mecab-node-id node))
@@ -81,21 +81,21 @@
     )
 
   (test-section "mecab-sparse-tonode2")
-  (let1 node (mecab-sparse-tonode2 m "¶õ¤¬ÀÄ¤¤¡£" 6)
+  (let1 node (mecab-sparse-tonode2 m "ç©ºãŒé’ã„ã€‚" 6)
     (test* "mecab-node?" #t (mecab-node? node))
     (test* "feature" "BOS/EOS,*,*,*,*,*,*,*,*" (mecab-node-feature node))
     (test* "stat" 'mecab-bos-node (mecab-node-stat node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "surface" "¶õ" (mecab-node-surface node))
-    (test* "feature" "Ì¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é" (mecab-node-feature node))
+    (test* "surface" "ç©º" (mecab-node-surface node))
+    (test* "feature" "åè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©" (mecab-node-feature node))
     (test* "stat" 'mecab-nor-node (mecab-node-stat node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "surface" "¤¬" (mecab-node-surface node))
-    (test* "feature" "½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬" (mecab-node-feature node))
+    (test* "surface" "ãŒ" (mecab-node-surface node))
+    (test* "feature" "åŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬" (mecab-node-feature node))
     (test* "stat" 'mecab-nor-node (mecab-node-stat node))
 
     (set! node (mecab-node-next node))
@@ -105,45 +105,45 @@
     (test* "no next node" #f (mecab-node-next node))
     )
 ;  (test-section "mecab-format-node")
-;  (let1 node (mecab-sparse-tonode m "¶õ¤¬ÀÄ¤¤¡£")
+;  (let1 node (mecab-sparse-tonode m "ç©ºãŒé’ã„ã€‚")
 ;   (test* "BOS" "" (mecab-format-node mecab node)))
   (mecab-destroy m))
 
 (let ([m (mecab-new2 "-l 1")] ;;
-      [input "¶õ¤¬ÀÄ¤¤¡£"])
+      [input "ç©ºãŒé’ã„ã€‚"])
   (test-section "mecab-nbest-sparse-tostr")
   (test* #`",|input|, N=1"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-sparse-tostr m 1 input))
   (test* #`",|input|, N=2"
          (string-append
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
           )
          (mecab-nbest-sparse-tostr m 2 input))
   (test* #`",|input|, N=3"
          (string-append
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
           )
          (mecab-nbest-sparse-tostr m 3 input))
 
   (test-section "mecab-nbest-sparse-tostr2")
   (test* #`",|input|, N=1"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
          (mecab-nbest-sparse-tostr2 m 1 input 6))
   (test* #`",|input|, N=2"
          (string-append
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
           )
          (mecab-nbest-sparse-tostr2 m 2 input 6))
   (test* #`",|input|, N=3"
          (string-append
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
-          "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
+          "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
           )
          (mecab-nbest-sparse-tostr2 m 3 input 6))
 
@@ -151,62 +151,60 @@
   (test* "init" 1 (mecab-nbest-init m input))
   (test-section "mecab-nbest-next-tostr")
   (test* "#1"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
         (mecab-nbest-next-tostr m))
   (test* "#2"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
         (mecab-nbest-next-tostr m))
   (test* "#3"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
         (mecab-nbest-next-tostr m))
   (test* "#4"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,ÀÜÂ³½õ»ì,*,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ¥ç¶šåŠ©è©,*,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#5"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,¥¬¥ëÀÜÂ³,ÀÄ¤¤,¥¢¥ª,¥¢¥ª\n¤¤\tÆ°»ì,Èó¼«Î©,*,*,°ìÃÊ,Ï¢ÍÑ·Á,¤¤¤ë,¥¤,¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,ã‚¬ãƒ«æ¥ç¶š,é’ã„,ã‚¢ã‚ª,ã‚¢ã‚ª\nã„\tå‹•è©,éè‡ªç«‹,*,*,ä¸€æ®µ,é€£ç”¨å½¢,ã„ã‚‹,ã‚¤,ã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#6"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,ÀÜÂ³½õ»ì,*,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ¥ç¶šåŠ©è©,*,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#7"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,¥¬¥ëÀÜÂ³,ÀÄ¤¤,¥¢¥ª,¥¢¥ª\n¤¤\tÆ°»ì,Èó¼«Î©,*,*,°ìÃÊ,Ï¢ÍÑ·Á,¤¤¤ë,¥¤,¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,ã‚¬ãƒ«æ¥ç¶š,é’ã„,ã‚¢ã‚ª,ã‚¢ã‚ª\nã„\tå‹•è©,éè‡ªç«‹,*,*,ä¸€æ®µ,é€£ç”¨å½¢,ã„ã‚‹,ã‚¤,ã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#8"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\tÀÜÂ³»ì,*,*,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tæ¥ç¶šè©,*,*,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#9"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,ÀÜÂ³½õ»ì,*,*,*,*,¤¬,¥¬,¥¬\nÀÄ¤¤\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,´ğËÜ·Á,ÀÄ¤¤,¥¢¥ª¥¤,¥¢¥ª¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ¥ç¶šåŠ©è©,*,*,*,*,ãŒ,ã‚¬,ã‚¬\né’ã„\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,åŸºæœ¬å½¢,é’ã„,ã‚¢ã‚ªã‚¤,ã‚¢ã‚ªã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (test* "#10"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nÀÄ\t·ÁÍÆ»ì,¼«Î©,*,*,·ÁÍÆ»ì¡¦¥¢¥¦¥ªÃÊ,¥¬¥ëÀÜÂ³,ÀÄ¤¤,¥¢¥ª,¥¢¥ª\n¤¤\tÆ°»ì,Èó¼«Î©,*,*,°ìÃÊ,Ï¢ÍÑ·Á,¤¤¤ë,¥¤,¥¤\n¡£\tµ­¹æ,¶çÅÀ,*,*,*,*,¡£,¡£,¡£\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\né’\tå½¢å®¹è©,è‡ªç«‹,*,*,å½¢å®¹è©ãƒ»ã‚¢ã‚¦ã‚ªæ®µ,ã‚¬ãƒ«æ¥ç¶š,é’ã„,ã‚¢ã‚ª,ã‚¢ã‚ª\nã„\tå‹•è©,éè‡ªç«‹,*,*,ä¸€æ®µ,é€£ç”¨å½¢,ã„ã‚‹,ã‚¤,ã‚¤\nã€‚\tè¨˜å·,å¥ç‚¹,*,*,*,*,ã€‚,ã€‚,ã€‚\nEOS\n"
          (mecab-nbest-next-tostr m))
   (dotimes (i 733)
     (mecab-nbest-next-tostr m))
   (test* "#744"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\tÆ°»ì,ÀÜÈø,*,*,¸ŞÃÊ¡¦¥é¹Ô,ÂÎ¸ÀÀÜÂ³ÆÃ¼ì£²,¤¬¤ë,¥¬,¥¬\nÀÄ\tÌ¾»ì,¸ÇÍ­Ì¾»ì,ÃÏ°è,°ìÈÌ,*,*,ÀÄ,¥¢¥ª,¥¢¥ª\n¤¤\tÆ°»ì,Èó¼«Î©,*,*,°ìÃÊ,Ì¤Á³·Á,¤¤¤ë,¥¤,¥¤\n¡£\tÌ¾»ì,¥µÊÑÀÜÂ³,*,*,*,*,*\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tå‹•è©,æ¥å°¾,*,*,äº”æ®µãƒ»ãƒ©è¡Œ,ä½“è¨€æ¥ç¶šç‰¹æ®Šï¼’,ãŒã‚‹,ã‚¬,ã‚¬\né’\tåè©,å›ºæœ‰åè©,åœ°åŸŸ,ä¸€èˆ¬,*,*,é’,ã‚¢ã‚ª,ã‚¢ã‚ª\nã„\tå‹•è©,éè‡ªç«‹,*,*,ä¸€æ®µ,æœªç„¶å½¢,ã„ã‚‹,ã‚¤,ã‚¤\nã€‚\tåè©,ã‚µå¤‰æ¥ç¶š,*,*,*,*,*\nEOS\n"
          (mecab-nbest-next-tostr m))
   ;; no more results...
   (test* "#745" #f (mecab-nbest-next-tostr m))
-  (test* "mecab-strerror" #f (string=? "" (mecab-strerror m)))
-  
+
   (test-section "mecab-nbest-init2")
   (test* "init2" 1 (mecab-nbest-init2 m input 6))
   (test* "#1"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥½¥é,¥½¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚½ãƒ©,ã‚½ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
         (mecab-nbest-next-tostr m))
   (test* "#2"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥«¥é,¥«¥é\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚«ãƒ©,ã‚«ãƒ©\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
         (mecab-nbest-next-tostr m))
   (test* "#3"
-        "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\t½õ»ì,³Ê½õ»ì,°ìÈÌ,*,*,*,¤¬,¥¬,¥¬\nEOS\n"
+        "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tåŠ©è©,æ ¼åŠ©è©,ä¸€èˆ¬,*,*,*,ãŒ,ã‚¬,ã‚¬\nEOS\n"
         (mecab-nbest-next-tostr m))
   (dotimes (i 8) (mecab-nbest-next-tostr m))
   (test* "#12"
-         "¶õ\tÌ¾»ì,°ìÈÌ,*,*,*,*,¶õ,¥¯¥¦,¥¯¡¼\n¤¬\tÆ°»ì,ÀÜÈø,*,*,¸ŞÃÊ¡¦¥é¹Ô,ÂÎ¸ÀÀÜÂ³ÆÃ¼ì£²,¤¬¤ë,¥¬,¥¬\nEOS\n"
+         "ç©º\tåè©,ä¸€èˆ¬,*,*,*,*,ç©º,ã‚¯ã‚¦,ã‚¯ãƒ¼\nãŒ\tå‹•è©,æ¥å°¾,*,*,äº”æ®µãƒ»ãƒ©è¡Œ,ä½“è¨€æ¥ç¶šç‰¹æ®Šï¼’,ãŒã‚‹,ã‚¬,ã‚¬\nEOS\n"
          (mecab-nbest-next-tostr m))
   ;; no more results...
   (test* "#13" #f (mecab-nbest-next-tostr m))
-  (test* "mecab-strerror" #f (string=? "" (mecab-strerror m)))
 
   (test-section "mecab-nbest-next-tonode")
   (mecab-nbest-init m input)
@@ -215,7 +213,6 @@
   (test* "#744" #t (mecab-node? (mecab-nbest-next-tonode m))); EOS
   ;; no more results...
   (test* "#745" #f (mecab-node? (mecab-nbest-next-tonode m)))
-  (test* "mecab-strerror" #f (string=? "" (mecab-strerror m)))
 
   (mecab-destroy m))
 
@@ -226,11 +223,10 @@
        [dinfo (mecab-dictionary-info m)])
   (test* "mecab-dictionary-info?" #t (mecab-dictionary-info? dinfo))
   (test* "mecab-dictionary-info-filename"
-         "/usr/local/lib/mecab/dic/ipadic/sys.dic" (mecab-dictionary-info-filename dinfo))
+         "sys.dic"
+         (sys-basename (mecab-dictionary-info-filename dinfo)))
   (test* "mecab-dictionary-info-charset"
-         "utf8" (mecab-dictionary-info-charset dinfo))
-  (test* "mecab-dictionary-info-size"
-         392126 (mecab-dictionary-info-size dinfo))
+         "UTF-8" (mecab-dictionary-info-charset dinfo))
   (test* "mecab-dictionary-info-type" 'mecab-sys-dic (mecab-dictionary-info-type dinfo))
   (test* "mecab-dictionary-info-lsize"
          1316 (mecab-dictionary-info-lsize dinfo))
@@ -260,17 +256,17 @@
 (test-section "tagger")
 (let1 tagger (mecab-tagger "-l 1")
   (test* "tagger'parse-to-string"
-         (string-join '("º£Æü\tÌ¾»ì,Éû»ì²ÄÇ½,*,*,*,*,º£Æü,¥­¥ç¥¦,¥­¥ç¡¼"
-                        "¤â\t½õ»ì,·¸½õ»ì,*,*,*,*,¤â,¥â,¥â"
-                        "¤·\tÆ°»ì,¼«Î©,*,*,¥µÊÑ¡¦¥¹¥ë,Ì¤Á³·Á,¤¹¤ë,¥·,¥·"
-                        "¤Ê¤¤\t½õÆ°»ì,*,*,*,ÆÃ¼ì¡¦¥Ê¥¤,´ğËÜ·Á,¤Ê¤¤,¥Ê¥¤,¥Ê¥¤"
-                        "¤È\t½õ»ì,ÀÜÂ³½õ»ì,*,*,*,*,¤È,¥È,¥È"
-                        "¤Í\t½õ»ì,½ª½õ»ì,*,*,*,*,¤Í,¥Í,¥Í"
+         (string-join '("ä»Šæ—¥\tåè©,å‰¯è©å¯èƒ½,*,*,*,*,ä»Šæ—¥,ã‚­ãƒ§ã‚¦,ã‚­ãƒ§ãƒ¼"
+                        "ã‚‚\tåŠ©è©,ä¿‚åŠ©è©,*,*,*,*,ã‚‚,ãƒ¢,ãƒ¢"
+                        "ã—\tå‹•è©,è‡ªç«‹,*,*,ã‚µå¤‰ãƒ»ã‚¹ãƒ«,æœªç„¶å½¢,ã™ã‚‹,ã‚·,ã‚·"
+                        "ãªã„\tåŠ©å‹•è©,*,*,*,ç‰¹æ®Šãƒ»ãƒŠã‚¤,åŸºæœ¬å½¢,ãªã„,ãƒŠã‚¤,ãƒŠã‚¤"
+                        "ã¨\tåŠ©è©,æ¥ç¶šåŠ©è©,*,*,*,*,ã¨,ãƒˆ,ãƒˆ"
+                        "ã­\tåŠ©è©,çµ‚åŠ©è©,*,*,*,*,ã­,ãƒ,ãƒ"
                         "EOS"
                         "") "\n")
-         ([tagger'parse-to-string] "º£Æü¤â¤·¤Ê¤¤¤È¤Í"))
+         ([tagger'parse-to-string] "ä»Šæ—¥ã‚‚ã—ãªã„ã¨ã­"))
 
-  (let1 node ([tagger'parse-to-node] "º£Æü¤â¤·¤Ê¤¤¤È¤Í")
+  (let1 node ([tagger'parse-to-node] "ä»Šæ—¥ã‚‚ã—ãªã„ã¨ã­")
     (test* "mecab-node?" #t (mecab-node? node))
     (test* "mecab-node-surface" "" (mecab-node-surface node))
     (test* "mecab-node-feature" "BOS/EOS,*,*,*,*,*,*,*,*" (mecab-node-feature node))
@@ -278,39 +274,39 @@
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "º£Æü" (mecab-node-surface node))
-    (test* "mecab-node-feature" "Ì¾»ì,Éû»ì²ÄÇ½,*,*,*,*,º£Æü,¥­¥ç¥¦,¥­¥ç¡¼" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ä»Šæ—¥" (mecab-node-surface node))
+    (test* "mecab-node-feature" "åè©,å‰¯è©å¯èƒ½,*,*,*,*,ä»Šæ—¥,ã‚­ãƒ§ã‚¦,ã‚­ãƒ§ãƒ¼" (mecab-node-feature node))
     (test* "mecab-node-cost" 3947 (mecab-node-cost node))
     ;;(test* "format-node" "" ([tagger'format-node] node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "¤â" (mecab-node-surface node))
-    (test* "mecab-node-feature" "½õ»ì,·¸½õ»ì,*,*,*,*,¤â,¥â,¥â" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ã‚‚" (mecab-node-surface node))
+    (test* "mecab-node-feature" "åŠ©è©,ä¿‚åŠ©è©,*,*,*,*,ã‚‚,ãƒ¢,ãƒ¢" (mecab-node-feature node))
     (test* "mecab-node-cost" 5553 (mecab-node-cost node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "¤·" (mecab-node-surface node))
-    (test* "mecab-node-feature" "Æ°»ì,¼«Î©,*,*,¥µÊÑ¡¦¥¹¥ë,Ì¤Á³·Á,¤¹¤ë,¥·,¥·" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ã—" (mecab-node-surface node))
+    (test* "mecab-node-feature" "å‹•è©,è‡ªç«‹,*,*,ã‚µå¤‰ãƒ»ã‚¹ãƒ«,æœªç„¶å½¢,ã™ã‚‹,ã‚·,ã‚·" (mecab-node-feature node))
     (test* "mecab-node-cost" 11566 (mecab-node-cost node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "¤Ê¤¤" (mecab-node-surface node))
-    (test* "mecab-node-feature" "½õÆ°»ì,*,*,*,ÆÃ¼ì¡¦¥Ê¥¤,´ğËÜ·Á,¤Ê¤¤,¥Ê¥¤,¥Ê¥¤" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ãªã„" (mecab-node-surface node))
+    (test* "mecab-node-feature" "åŠ©å‹•è©,*,*,*,ç‰¹æ®Šãƒ»ãƒŠã‚¤,åŸºæœ¬å½¢,ãªã„,ãƒŠã‚¤,ãƒŠã‚¤" (mecab-node-feature node))
     (test* "mecab-node-cost" 3601 (mecab-node-cost node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "¤È" (mecab-node-surface node))
-    (test* "mecab-node-feature" "½õ»ì,ÀÜÂ³½õ»ì,*,*,*,*,¤È,¥È,¥È" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ã¨" (mecab-node-surface node))
+    (test* "mecab-node-feature" "åŠ©è©,æ¥ç¶šåŠ©è©,*,*,*,*,ã¨,ãƒˆ,ãƒˆ" (mecab-node-feature node))
     (test* "mecab-node-cost" 4716 (mecab-node-cost node))
 
     (set! node (mecab-node-next node))
     (test* "mecab-node?" #t (mecab-node? node))
-    (test* "mecab-node-surface" "¤Í" (mecab-node-surface node))
-    (test* "mecab-node-feature" "½õ»ì,½ª½õ»ì,*,*,*,*,¤Í,¥Í,¥Í" (mecab-node-feature node))
+    (test* "mecab-node-surface" "ã­" (mecab-node-surface node))
+    (test* "mecab-node-feature" "åŠ©è©,çµ‚åŠ©è©,*,*,*,*,ã­,ãƒ,ãƒ" (mecab-node-feature node))
     (test* "mecab-node-cost" 10676 (mecab-node-cost node))
 
     (set! node (mecab-node-next node))
@@ -325,4 +321,4 @@
     (tagger'destroy)
     ))
 
-(test-end)
+(test-end :exit-on-failure #t)
