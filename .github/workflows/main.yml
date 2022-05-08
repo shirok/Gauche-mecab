@@ -13,9 +13,10 @@ jobs:
     - uses: shirok/setup-gauche@v1
     - name: Install dependencies
       run: |
-        sudo apt install -y libmecab-dev mecab-jumandic-utf8
+        sudo apt install -y libmecab-dev mecab-ipadic-utf8
     - name: Build and check
       run: |
         ./configure
         make
         make -s check
+        make -s check-dep
