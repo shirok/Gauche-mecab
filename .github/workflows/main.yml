@@ -6,8 +6,6 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      GET_GAUCHE_URL: https://raw.githubusercontent.com/shirok/get-gauche/master
     steps:
     - uses: actions/checkout@v3
     - uses: shirok/setup-gauche@v1
