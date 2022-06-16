@@ -226,7 +226,8 @@
          "sys.dic"
          (sys-basename (mecab-dictionary-info-filename dinfo)))
   (test* "mecab-dictionary-info-charset"
-         "UTF-8" (mecab-dictionary-info-charset dinfo))
+         (test-one-of "UTF-8" "utf8")
+         (mecab-dictionary-info-charset dinfo))
   (test* "mecab-dictionary-info-type" 'mecab-sys-dic (mecab-dictionary-info-type dinfo))
   (test* "mecab-dictionary-info-lsize"
          1316 (mecab-dictionary-info-lsize dinfo))
