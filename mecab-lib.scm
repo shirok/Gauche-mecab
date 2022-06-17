@@ -180,24 +180,21 @@
 ;;
 (inline-stub
  (declcode
-  "#include <mecab.h>"
+  (.include <mecab.h>)
 
   ;; mecab_t type holder.
-  "typedef struct ScmMeCabRec {
-     SCM_HEADER;
-     mecab_t *m; /* NULL if closed */
-     ScmObj   options;
-   } ScmMeCab;
+  (define-ctype ScmMeCab
+    ::(.struct (SCM_HEADER::||            ; :|| is a trick to omit type decl
+                m::mecab_t*               ; NULL if closed
+                options)))
 
-   typedef struct ScmMeCabNodeRec {
-     SCM_HEADER;
-     const mecab_node_t *node;
-   } ScmMeCabNode;
+  (define-ctype ScmMeCabNode
+    ::(.struct (SCM_HEADER::||
+                node::(const mecab_node_t *))))
 
-   typedef struct ScmMeCabDictionaryInfoRec {
-     SCM_HEADER;
-     const mecab_dictionary_info_t *dic_info;
-   } ScmMeCabDictionaryInfo;")
+  (define-ctype ScmMeCabDictionaryInfo
+    ::(.struct (SCM_HEADER::||
+                dic_info::(const mecab_dictionary_info_t *)))))
 
  (define-cclass <mecab> :private ScmMeCab* "Scm_MeCabClass"
    ()
@@ -670,8 +667,6 @@
 
 (define-method format-node ((tagger <mecab-tagger>) (node <mecab-node>))
   (mecab-format-node (tagger-mecab tagger) node))
-
-(provide "text/mecab")
 
 ;; Local variables:
 ;; mode: scheme
