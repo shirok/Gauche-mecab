@@ -3,31 +3,22 @@ name: Build and test
 on: [push, pull_request]
 
 jobs:
-  build-and-test-linux:
-    runs-on: ubuntu-latest
+  build-and-test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.platform }}
     timeout-minutes: 10
     steps:
     - uses: actions/checkout@v3
     - uses: shirok/setup-gauche@v3
     - name: Install dependencies
       run: |
-        sudo apt install -y libmecab-dev mecab-ipadic-utf8
-    - name: Build and check
-      run: |
-        ./configure
-        make
-        make -s check
-        make -s check-dep
-
-  build-and-test-osx:
-    runs-on: macos-12
-    timeout-minutes: 10
-    steps:
-    - uses: actions/checkout@v3
-    - uses: shirok/setup-gauche@v3
-    - name: Install dependencies
-      run: |
-        brew install mecab mecab-ipadic
+        if [ "${{ matrix.platform }}" == 'ubuntu-latest' ]; then
+          sudo apt install -y libmecab-dev mecab-ipadic-utf8
+        elif [ "${{ matrix.platform }}" == 'macos-latest' ]; then
+          brew install mecab mecab-ipadic
+        fi
     - name: Build and check
       run: |
         ./configure
