@@ -34,9 +34,9 @@
 ;;;
 
 (define-module text.mecab
-  (use srfi-1)
-  (use srfi-13)
   (use gauche.charconv)
+  (use scheme.list)
+  (use srfi.13)
   (export <mecab> <mecab-node> <mecab-dictionary-info>
           mecab? mecab-node? mecab-dictionary-info?
           mecab-do mecab-new mecab-new2
